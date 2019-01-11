@@ -46,8 +46,6 @@ class Tail extends events.EventEmitter
     @internalDispatcher.on 'next',=>
       @readBlock()
 
-    @watch(fromBeginning)
-
   change: (filename) =>
       try
         stats = fs.statSync(filename)
@@ -63,7 +61,7 @@ class Tail extends events.EventEmitter
 
   watch: (fromBeginning) ->
     return if @isWatching
-    
+
     if @logger
       @logger.info("filesystem.watch present? #{fs.watch isnt undefined}")
       @logger.info("useWatchFile: #{@useWatchFile}")
@@ -77,7 +75,7 @@ class Tail extends events.EventEmitter
       @emit("error", "watch for #{@filename} failed: #{err}")
       return
     @pos = if fromBeginning then 0 else stats.size
-    
+
     if @pos == 0
       @change(@filename)
 
